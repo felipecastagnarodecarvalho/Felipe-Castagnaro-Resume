@@ -2,7 +2,7 @@ export const BRAND = "Castagnaro Digital"
 
 export const WHATSAPP_NUMBER_DISPLAY = "+55 45 99809-2892"
 export const WHATSAPP_NUMBER_E164 = "5545998092892"
-export const CONTACT_EMAIL = "contato@castagnarocastro.dev"
+export const CONTACT_EMAIL = "felipecastagnarodecarvalho@gmail.com"
 
 export type Locale = "en" | "es" | "pt"
 
