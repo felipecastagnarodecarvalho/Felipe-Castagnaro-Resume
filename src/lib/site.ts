@@ -90,8 +90,6 @@ export interface Copy {
     eyebrow: string
     title: string
     lead: string
-    sampleBadge: string
-    sampleNote: string
     stackLabel: string
     items: ProjectCopy[]
   }
@@ -115,68 +113,108 @@ export interface Copy {
   footer: { tagline: string; rights: string; builtWith: string }
 }
 
-const projects: ProjectCopy[] = [
+type Localized = Record<Locale, string>
+
+interface ProjectSource {
+  id: string
+  name: string
+  year: string
+  kind: Localized
+  description: Localized
+  stack: string[]
+}
+
+const projectSources: ProjectSource[] = [
   {
-    id: "fieldops",
-    name: "FieldOps",
-    kind: "Operations platform",
+    id: "quienscent",
+    name: "Quienscent",
     year: "2026",
-    description:
-      "Scheduling, routing and proof-of-delivery in one console for distributed field teams.",
-    stack: ["Laravel", "Vue.js", "PostgreSQL"],
-    media: { type: "placeholder", alt: "" },
+    kind: {
+      en: "Digital signage SaaS",
+      es: "SaaS de señalización digital",
+      pt: "SaaS de sinalização digital",
+    },
+    description: {
+      en: "Multi-tenant digital signage platform: an Android player app (Java/ExoPlayer) controlled in real time over WebSocket, and a Laravel/Vue admin panel with Stripe recurring billing and live product price lookups.",
+      es: "Plataforma SaaS multi-tenant de señalización digital: una app Android (Java/ExoPlayer) controlada en tiempo real vía WebSocket y un panel administrativo en Laravel/Vue con pagos recurrentes vía Stripe y consulta de precios de productos en tiempo real.",
+      pt: "Plataforma SaaS multi-tenant de sinalização digital: um aplicativo Android (Java/ExoPlayer) com controle em tempo real via WebSocket e um painel administrativo em Laravel/Vue, com pagamentos recorrentes via Stripe e consulta de preços de produtos em tempo real.",
+    },
+    stack: ["Java", "ExoPlayer", "WebSocket", "Laravel", "Vue.js", "Stripe"],
   },
   {
-    id: "ledgerly",
-    name: "Ledgerly",
-    kind: "Finance API",
-    year: "2025",
-    description:
-      "Double-entry ledger service with idempotent writes, audit trails and role-based access.",
-    stack: [".NET", "C#", "REST"],
-    media: { type: "placeholder", alt: "" },
+    id: "trix",
+    name: "Trix",
+    year: "2026",
+    kind: {
+      en: "Multi-store e-commerce SaaS",
+      es: "SaaS de e-commerce multitienda",
+      pt: "SaaS de e-commerce multi-loja",
+    },
+    description: {
+      en: "Django/React control plane and a Laravel/Twig store runtime, with an isolated SQLite database per store sharded across nodes, Traefik routing, an HMAC-signed internal API and es/pt-BR localization.",
+      es: "Control plane en Django/React y runtime de tiendas en Laravel/Twig, con una base SQLite aislada por tienda y sharding en varios nodos, enrutamiento vía Traefik, API interna firmada con HMAC y soporte multilingüe (es/pt-BR).",
+      pt: "Control plane em Django/React e runtime de lojas em Laravel/Twig, com um banco SQLite isolado por loja e sharding em vários nós, roteamento via Traefik, API interna assinada com HMAC e suporte multilíngue (es/pt-BR).",
+    },
+    stack: ["Django", "React", "Laravel", "Twig", "SQLite", "Traefik"],
   },
   {
-    id: "atlasone",
-    name: "Atlas One",
-    kind: "Customer portal",
-    year: "2025",
-    description:
-      "Self-service portal for quotes, invoices and support history with a typed design system.",
-    stack: ["React", "TypeScript", "Stripe"],
-    media: { type: "placeholder", alt: "" },
+    id: "melia",
+    name: "Melia",
+    year: "2023 – 2025",
+    kind: {
+      en: "Open-source MMORPG server",
+      es: "Servidor MMORPG open source",
+      pt: "Servidor de MMORPG open source",
+    },
+    description: {
+      en: "Built an admin panel to manage the game server (PHP, Laravel, MySQL) and contributed C#/.NET features such as new character skills, along with bug fixes and code reviews.",
+      es: "Desarrollé un panel administrativo para gestionar el servidor del juego (PHP, Laravel, MySQL) y contribuí con funcionalidades en C#/.NET, como nuevas habilidades de personajes, además de correcciones de bugs y revisiones de código.",
+      pt: "Desenvolvi um painel administrativo para gerenciamento do servidor do jogo (PHP, Laravel, MySQL) e contribuí com funcionalidades em C#/.NET, como novas habilidades de personagens, além de correções de bugs e revisões de código.",
+    },
+    stack: ["PHP", "Laravel", "MySQL", "C#", ".NET"],
   },
   {
-    id: "nimbus",
-    name: "Nimbus Sync",
-    kind: "Mobile application",
-    year: "2024",
-    description:
-      "Offline-first mobile app that reconciles records with a legacy ERP once connectivity returns.",
-    stack: ["C#", ".NET MAUI", "REST"],
-    media: { type: "placeholder", alt: "" },
+    id: "path-of-destruction",
+    name: "Path of Destruction",
+    year: "2018 – 2022",
+    kind: {
+      en: "Multiplayer game on Steam",
+      es: "Juego multijugador en Steam",
+      pt: "Jogo multiplayer na Steam",
+    },
+    description: {
+      en: "Built and shipped on Steam a 2D top-down multiplayer shooter in Unity3D (C#) with Photon (PUN2) networking, including custom visual effects, textures, animations and shaders.",
+      es: "Desarrollé y lancé en Steam un juego de disparos multijugador 2D top-down en Unity3D (C#) con red Photon (PUN2), con efectos visuales, texturas, animaciones y shaders propios.",
+      pt: "Desenvolvi e lancei na Steam um jogo de tiro multiplayer 2D top-down em Unity3D (C#) com rede Photon (PUN2), criando efeitos visuais, texturas, animações e shaders personalizados.",
+    },
+    stack: ["Unity3D", "C#", "Photon PUN2", "Shaders"],
   },
   {
-    id: "sentinel",
-    name: "Sentinel Review",
-    kind: "Security tooling",
-    year: "2024",
-    description:
-      "Internal review toolkit that flags exposed endpoints and weak authentication flows.",
-    stack: ["PHP", "Laravel", "Redis"],
-    media: { type: "placeholder", alt: "" },
-  },
-  {
-    id: "mercatto",
-    name: "Mercatto",
-    kind: "Commerce front end",
-    year: "2023",
-    description:
-      "Storefront rebuild with server-rendered catalog pages and a tuned checkout funnel.",
-    stack: ["React", "Node.js", "PostgreSQL"],
-    media: { type: "placeholder", alt: "" },
+    id: "screensaver",
+    name: "ScreenSaver",
+    year: "2020",
+    kind: {
+      en: "Android application",
+      es: "Aplicación Android",
+      pt: "Aplicativo Android",
+    },
+    description: {
+      en: "Screensaver app built with Xamarin.Forms, Prism and MVVM that plays user-defined videos or animations, deployed simultaneously to more than 80 devices in Nissei stores (Paraguay).",
+      es: "App de protector de pantalla en Xamarin.Forms, Prism y MVVM que reproduce videos o animaciones definidos por el usuario, implantada simultáneamente en más de 80 dispositivos en las tiendas Nissei (Paraguay).",
+      pt: "Aplicativo de descanso de tela em Xamarin.Forms, Prism e MVVM que reproduz vídeos ou animações definidos pelo usuário, implantado simultaneamente em mais de 80 dispositivos na loja Nissei (Paraguai).",
+    },
+    stack: ["Xamarin.Forms", "Prism", "MVVM", "Android"],
   },
 ]
+
+function projectsFor(locale: Locale): ProjectCopy[] {
+  return projectSources.map(({ kind, description, ...project }) => ({
+    ...project,
+    kind: kind[locale],
+    description: description[locale],
+    media: { type: "placeholder", alt: "" },
+  }))
+}
 
 export const copy: Record<Locale, Copy> = {
   en: {
@@ -288,11 +326,8 @@ export const copy: Record<Locale, Copy> = {
       eyebrow: "Projects",
       title: "Selected work.",
       lead: "Each case carries the scope, the stack and the outcome that mattered to the client.",
-      sampleBadge: "Sample entry",
-      sampleNote:
-        "These cards are placeholders so the section is ready for your real case studies — swap them for project data from your backend at any time.",
       stackLabel: "Stack",
-      items: projects,
+      items: projectsFor("en"),
     },
     developer: {
       eyebrow: "Developer",
@@ -442,11 +477,8 @@ export const copy: Record<Locale, Copy> = {
       eyebrow: "Proyectos",
       title: "Trabajos seleccionados.",
       lead: "Cada caso reúne el alcance, el stack y el resultado que importaba al cliente.",
-      sampleBadge: "Ejemplo",
-      sampleNote:
-        "Estas tarjetas son marcadores de posición para que la sección ya esté lista para tus casos reales: reemplázalas por datos de tu backend cuando quieras.",
       stackLabel: "Stack",
-      items: projects,
+      items: projectsFor("es"),
     },
     developer: {
       eyebrow: "Desarrollador",
@@ -596,11 +628,8 @@ export const copy: Record<Locale, Copy> = {
       eyebrow: "Projetos",
       title: "Trabalhos selecionados.",
       lead: "Cada caso reúne o escopo, a stack e o resultado que importava para o cliente.",
-      sampleBadge: "Exemplo",
-      sampleNote:
-        "Estes cartões são espaços reservados para que a seção já esteja pronta para seus casos reais — troque por dados do seu backend quando quiser.",
       stackLabel: "Stack",
-      items: projects,
+      items: projectsFor("pt"),
     },
     developer: {
       eyebrow: "Desenvolvedor",

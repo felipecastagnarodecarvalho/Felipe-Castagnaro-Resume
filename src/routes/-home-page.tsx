@@ -268,16 +268,6 @@ export function HomePage() {
               lead={t.work.lead}
             />
 
-            <Reveal className="mt-8">
-              <p className="inline-flex items-start gap-2.5 rounded-xl border border-brand-pool/40 bg-brand-pool/5 px-4 py-3 text-xs leading-relaxed text-muted-foreground">
-                <svg viewBox="0 0 24 24" className="mt-0.5 size-4 shrink-0 text-brand-pool" fill="none" stroke="currentColor" strokeWidth="1.8" strokeLinecap="round" aria-hidden="true">
-                  <circle cx="12" cy="12" r="9" />
-                  <path d="M12 8h.01M11 12h1v4h1" />
-                </svg>
-                {t.work.sampleNote}
-              </p>
-            </Reveal>
-
             <div className="mt-8 grid gap-5 sm:grid-cols-2 lg:grid-cols-3">
               {t.work.items.map((project, index) => (
                 <Reveal
@@ -298,7 +288,7 @@ export function HomePage() {
                   ) : (
                     <div
                       role="img"
-                      aria-label={`${project.name} — ${t.work.sampleBadge}`}
+                      aria-label={`${project.name} — ${project.kind}`}
                       className="relative flex aspect-video items-center justify-center overflow-hidden border-b border-border/70 bg-[radial-gradient(120%_120%_at_15%_10%,color-mix(in_oklab,var(--brand-pool)_22%,transparent),transparent_60%),radial-gradient(100%_100%_at_85%_90%,color-mix(in_oklab,var(--primary)_18%,transparent),transparent_55%)]"
                     >
                       <svg viewBox="0 0 240 135" className="h-full w-full opacity-70" aria-hidden="true">
@@ -315,9 +305,6 @@ export function HomePage() {
                           <circle cx="200" cy="100" r="3.2" />
                         </g>
                       </svg>
-                      <span className="absolute top-3 left-3 rounded-full border border-border/80 bg-background/85 px-2 py-0.5 text-[10px] font-semibold tracking-[0.1em] text-muted-foreground uppercase backdrop-blur-sm">
-                        {t.work.sampleBadge}
-                      </span>
                     </div>
                   )}
 
