@@ -143,7 +143,7 @@ export function SiteHeader() {
           <Button
             asChild
             size="sm"
-            className="hidden h-9 rounded-full bg-primary px-3.5 text-primary-foreground hover:bg-primary-hover hover:text-primary-hover-foreground sm:inline-flex"
+            className="cd-shine hidden h-9 rounded-full bg-primary px-3.5 text-primary-foreground hover:bg-primary-hover hover:text-primary-hover-foreground sm:inline-flex"
           >
             <a href={whatsapp} target="_blank" rel="noopener noreferrer">
               <WhatsAppIcon className="size-4" />

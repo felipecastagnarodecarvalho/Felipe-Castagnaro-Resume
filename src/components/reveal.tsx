@@ -47,11 +47,15 @@ export function Reveal({
 
       gsap.fromTo(
         el,
-        { autoAlpha: 0, y },
+        { autoAlpha: 0, y, scale: 0.98, filter: "blur(8px)" },
         {
           autoAlpha: 1,
           y: 0,
-          duration: 0.6,
+          scale: 1,
+          filter: "blur(0px)",
+          // Drop the filter afterwards so text is not left on its own layer.
+          clearProps: "filter,transform",
+          duration: 0.8,
           delay,
           ease: "power2.out",
           overwrite: "auto",

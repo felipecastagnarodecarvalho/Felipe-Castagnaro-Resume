@@ -47,29 +47,29 @@
   }
 
   .dark {
-    --background: #080d14;
-    --foreground: #eaf2f8;
-    --card: #0e1622;
-    --card-foreground: #eaf2f8;
-    --popover: #0e1622;
+    --background: #0a1321;
+    --foreground: #eef5fb;
+    --card: #111d2e;
+    --card-foreground: #eef5fb;
+    --popover: #111d2e;
     --popover-foreground: #eaf2f8;
     --primary: #2e9bd6;
     --primary-foreground: #06121b;
     --primary-hover: #52b3e6;
     --primary-hover-foreground: #06121b;
-    --secondary: #131f2e;
-    --secondary-foreground: #eaf2f8;
+    --secondary: #172840;
+    --secondary-foreground: #eef5fb;
     --brand-pool: #7fe3da;
     --brand-aqua: #7fe3da;
     --pool-ink: #8fd8f2;
-    --muted: #131f2e;
-    --muted-foreground: #93a6bb;
-    --accent: #14283c;
+    --muted: #13223a;
+    --muted-foreground: #a6b8cc;
+    --accent: #17304a;
     --accent-foreground: #a8dcf5;
     --destructive: #f07171;
     --destructive-foreground: #1a0808;
-    --border: #1d2b3c;
-    --input: #1d2b3c;
+    --border: #24384f;
+    --input: #24384f;
     --ring: #7fe3da;
     --chart-1: #2e9bd6;
     --chart-2: #7fe3da;
@@ -221,6 +221,302 @@
 
     .cd-reveal[data-motion="pending"] {
       opacity: 1;
+    }
+  }
+}
+
+/* Ambient motion: everything below is transform/opacity/background-position
+   only, so it stays on the compositor and off the main thread. */
+@keyframes cd-blink {
+  0%,
+  45% {
+    opacity: 1;
+  }
+  50%,
+  95% {
+    opacity: 0;
+  }
+}
+
+@keyframes cd-shimmer {
+  from {
+    background-position: 0% 50%;
+  }
+  to {
+    background-position: 200% 50%;
+  }
+}
+
+@keyframes cd-sweep {
+  0%,
+  60% {
+    transform: translateX(-120%) skewX(-20deg);
+  }
+  100% {
+    transform: translateX(220%) skewX(-20deg);
+  }
+}
+
+@keyframes cd-spin {
+  to {
+    transform: rotate(1turn);
+  }
+}
+
+@keyframes cd-drift {
+  0%,
+  100% {
+    transform: translate3d(0, 0, 0) scale(1);
+  }
+  50% {
+    transform: translate3d(6%, -8%, 0) scale(1.12);
+  }
+}
+
+@keyframes cd-dash {
+  to {
+    stroke-dashoffset: -24;
+  }
+}
+
+@keyframes cd-node-pulse {
+  0%,
+  100% {
+    transform: scale(1);
+    opacity: 0.75;
+  }
+  50% {
+    transform: scale(1.5);
+    opacity: 1;
+  }
+}
+
+@keyframes cd-float {
+  0%,
+  100% {
+    transform: translateY(0);
+  }
+  50% {
+    transform: translateY(-8px);
+  }
+}
+
+@layer components {
+  .cd-caret {
+    display: inline-block;
+    width: 2px;
+    height: 1.05em;
+    margin-left: 3px;
+    vertical-align: -0.15em;
+    background: var(--brand-pool);
+    box-shadow: 0 0 10px var(--brand-pool);
+    animation: cd-blink 1s steps(1) infinite;
+  }
+
+  /* Gradient text with a slow travelling highlight. */
+  .cd-shimmer-text {
+    background-image: linear-gradient(
+      100deg,
+      var(--foreground) 0%,
+      var(--foreground) 35%,
+      var(--brand-pool) 50%,
+      var(--foreground) 65%,
+      var(--foreground) 100%
+    );
+    background-size: 200% 100%;
+    background-clip: text;
+    -webkit-background-clip: text;
+    color: transparent;
+    animation: cd-shimmer 6s linear infinite;
+  }
+
+  .cd-glow-text {
+    text-shadow: 0 0 18px color-mix(in oklab, var(--brand-pool) 55%, transparent);
+  }
+
+  /* Cards: lift on hover, plus a glow that follows the pointer (use-spotlight). */
+  .cd-spot {
+    position: relative;
+    isolation: isolate;
+    transition:
+      transform 300ms cubic-bezier(0.22, 1, 0.36, 1),
+      box-shadow 300ms ease,
+      border-color 300ms ease;
+  }
+
+  .cd-spot::before {
+    content: "";
+    position: absolute;
+    inset: 0;
+    z-index: -1;
+    border-radius: inherit;
+    pointer-events: none;
+    opacity: 0;
+    background: radial-gradient(
+      360px circle at var(--mx, 50%) var(--my, 0%),
+      color-mix(in oklab, var(--brand-pool) 18%, transparent),
+      transparent 70%
+    );
+    transition: opacity 300ms ease;
+  }
+
+  .cd-spot:hover {
+    transform: translateY(-4px);
+    border-color: color-mix(in oklab, var(--brand-pool) 60%, transparent);
+    box-shadow: 0 18px 50px -20px color-mix(in oklab, var(--brand-pool) 55%, transparent);
+  }
+
+  .cd-spot:hover::before {
+    opacity: 1;
+  }
+
+  /* A light sweep that crosses the button every few seconds. */
+  .cd-shine {
+    position: relative;
+    overflow: hidden;
+    isolation: isolate;
+    box-shadow: 0 8px 28px -10px color-mix(in oklab, var(--primary) 75%, transparent);
+  }
+
+  .cd-shine::after {
+    content: "";
+    position: absolute;
+    inset: 0;
+    width: 40%;
+    pointer-events: none;
+    background: linear-gradient(90deg, transparent, rgb(255 255 255 / 0.45), transparent);
+    animation: cd-sweep 4.5s ease-in-out infinite;
+  }
+
+  /* Rotating gradient ring behind the developer photo. */
+  .cd-avatar-ring {
+    position: relative;
+    isolation: isolate;
+    border-radius: 9999px;
+    padding: 3px;
+    animation: cd-float 6s ease-in-out infinite;
+  }
+
+  .cd-avatar-ring::before {
+    content: "";
+    position: absolute;
+    inset: 0;
+    z-index: -1;
+    border-radius: inherit;
+    background: conic-gradient(
+      from 0deg,
+      var(--brand-pool),
+      var(--primary),
+      transparent 55%,
+      var(--brand-pool)
+    );
+    animation: cd-spin 5s linear infinite;
+  }
+
+  .cd-avatar-ring::after {
+    content: "";
+    position: absolute;
+    inset: -14px;
+    z-index: -2;
+    border-radius: inherit;
+    background: radial-gradient(closest-side, color-mix(in oklab, var(--brand-pool) 35%, transparent), transparent);
+  }
+
+  /* Soft drifting light behind a section, so dark areas are not flat. */
+  .cd-ambient {
+    position: relative;
+    isolation: isolate;
+    overflow: hidden;
+  }
+
+  .cd-ambient::before,
+  .cd-ambient::after {
+    content: "";
+    position: absolute;
+    z-index: -1;
+    width: 46rem;
+    height: 46rem;
+    border-radius: 9999px;
+    pointer-events: none;
+    animation: cd-drift 18s ease-in-out infinite;
+  }
+
+  .cd-ambient::before {
+    top: -22rem;
+    left: -14rem;
+    background: radial-gradient(closest-side, color-mix(in oklab, var(--brand-pool) 16%, transparent), transparent);
+  }
+
+  .cd-ambient::after {
+    right: -16rem;
+    bottom: -24rem;
+    background: radial-gradient(closest-side, color-mix(in oklab, var(--primary) 18%, transparent), transparent);
+    animation-delay: -9s;
+  }
+
+  /* Heading underline that draws itself once the heading is revealed. */
+  .cd-bar {
+    display: block;
+    width: 3.5rem;
+    height: 3px;
+    margin-top: 1rem;
+    border-radius: 9999px;
+    background: linear-gradient(90deg, var(--brand-pool), var(--primary));
+    box-shadow: 0 0 14px color-mix(in oklab, var(--brand-pool) 60%, transparent);
+    transform: scaleX(0);
+    transform-origin: left;
+    transition: transform 900ms cubic-bezier(0.22, 1, 0.36, 1) 250ms;
+  }
+
+  .cd-reveal:not([data-motion]) .cd-bar {
+    transform: scaleX(1);
+  }
+
+  /* Project placeholder art: data flowing along the paths, nodes pulsing. */
+  .cd-flow path {
+    stroke-dasharray: 5 7;
+    animation: cd-dash 2.4s linear infinite;
+  }
+
+  .cd-nodes circle {
+    transform-box: fill-box;
+    transform-origin: center;
+    animation: cd-node-pulse 2.4s ease-in-out infinite;
+  }
+
+  .cd-nodes circle:nth-child(2n) {
+    animation-delay: -1.2s;
+  }
+
+  .cd-nodes circle:nth-child(3n) {
+    animation-delay: -0.6s;
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    .cd-flow path,
+    .cd-nodes circle,
+    .cd-caret,
+    .cd-shimmer-text,
+    .cd-shine::after,
+    .cd-avatar-ring,
+    .cd-avatar-ring::before,
+    .cd-ambient::before,
+    .cd-ambient::after {
+      animation: none;
+    }
+
+    .cd-shine::after {
+      display: none;
+    }
+
+    .cd-spot,
+    .cd-spot:hover {
+      transform: none;
+    }
+
+    .cd-bar {
+      transform: scaleX(1);
+      transition: none;
     }
   }
 }

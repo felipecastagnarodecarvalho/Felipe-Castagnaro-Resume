@@ -1,6 +1,10 @@
+import { useMemo } from "react"
+
 import { Button } from "#/components/ui/button.tsx"
 import { NetworkCanvas } from "#/components/network-canvas.tsx"
 import { Reveal } from "#/components/reveal.tsx"
+import { Typewriter } from "#/components/typewriter.tsx"
+import { useSpotlight } from "#/hooks/use-spotlight.ts"
 import { useLocale } from "#/lib/locale-context.tsx"
 import { contactHref } from "#/lib/contact.ts"
 import { BRAND, WHATSAPP_NUMBER_DISPLAY, whatsappLink } from "#/lib/site.ts"
@@ -29,6 +33,7 @@ function SectionHeading({
       >
         {title}
       </h2>
+      <span aria-hidden="true" className="cd-bar" />
       <p className="mt-4 text-base leading-relaxed text-muted-foreground">{lead}</p>
     </Reveal>
   )
@@ -37,6 +42,8 @@ function SectionHeading({
 export function HomePage() {
   const { t } = useLocale()
   const whatsapp = whatsappLink(t.cta.whatsappMessage)
+  const serviceTitles = useMemo(() => t.services.items.map((item) => item.title), [t])
+  useSpotlight()
 
   return (
     <div id="top" className="theme-surface min-h-screen bg-background text-foreground">
@@ -52,16 +59,16 @@ export function HomePage() {
       <main id="main">
         {/* ── Hero ─────────────────────────────────────────────────────── */}
         <section className="relative isolate overflow-hidden border-b border-border/70">
-          <NetworkCanvas className="pointer-events-none absolute inset-0 -z-10 opacity-70 dark:opacity-90" />
+          <NetworkCanvas className="pointer-events-none absolute inset-0 -z-10" />
           <div
             aria-hidden="true"
-            className="pointer-events-none absolute inset-0 -z-10 bg-gradient-to-b from-background/55 via-background/75 to-background"
+            className="pointer-events-none absolute inset-0 -z-10 bg-[radial-gradient(55%_65%_at_25%_48%,color-mix(in_oklab,var(--background)_82%,transparent),transparent_80%),linear-gradient(to_bottom,transparent_60%,var(--background))]"
           />
 
           <div className="mx-auto max-w-6xl px-4 py-12 sm:px-6 sm:py-16 lg:px-8 lg:py-20">
             <div className="max-w-3xl">
               <p
-                className="cd-hero-item inline-flex items-center gap-2 rounded-full border border-border/80 bg-card/70 px-3 py-1.5 text-xs font-medium text-muted-foreground backdrop-blur-sm"
+                className="cd-hero-item inline-flex items-center gap-2 rounded-full border border-brand-pool/40 bg-card/70 px-3 py-1.5 text-xs font-medium text-foreground/85 shadow-[0_0_24px_-6px_var(--brand-pool)] backdrop-blur-sm"
                 style={{ "--cd-delay": "60ms" } as React.CSSProperties}
               >
                 <span className="relative flex size-1.5 rounded-full bg-brand-pool">
@@ -74,11 +81,21 @@ export function HomePage() {
                 className="cd-hero-item mt-6 font-display text-4xl leading-[1.05] font-semibold tracking-tight text-balance text-foreground sm:text-5xl lg:text-6xl"
                 style={{ "--cd-delay": "160ms" } as React.CSSProperties}
               >
-                {t.hero.title}
+                <span className="cd-shimmer-text">{t.hero.title}</span>
               </h1>
 
               <p
-                className="cd-hero-item mt-6 max-w-2xl text-lg leading-relaxed text-muted-foreground"
+                className="cd-hero-item mt-5 font-mono text-base text-brand-pool sm:text-lg"
+                style={{ "--cd-delay": "220ms" } as React.CSSProperties}
+              >
+                <span aria-hidden="true" className="mr-2 text-muted-foreground">
+                  &gt;
+                </span>
+                <Typewriter key={serviceTitles.join("|")} words={serviceTitles} className="cd-glow-text" />
+              </p>
+
+              <p
+                className="cd-hero-item mt-5 max-w-2xl text-lg leading-relaxed text-muted-foreground"
                 style={{ "--cd-delay": "260ms" } as React.CSSProperties}
               >
                 {t.hero.lead}
@@ -99,7 +116,7 @@ export function HomePage() {
                   <Button
                     asChild
                     size="lg"
-                    className="h-11 rounded-full bg-primary px-6 text-primary-foreground hover:bg-primary-hover hover:text-primary-hover-foreground"
+                    className="cd-shine h-11 rounded-full bg-primary px-6 text-primary-foreground transition-transform hover:scale-[1.03] hover:bg-primary-hover hover:text-primary-hover-foreground"
                   >
                     <a href={whatsapp} target="_blank" rel="noopener noreferrer">
                       <svg viewBox="0 0 24 24" className="size-4" fill="currentColor" aria-hidden="true">
@@ -112,7 +129,7 @@ export function HomePage() {
                     asChild
                     size="lg"
                     variant="outline"
-                    className="h-11 rounded-full border-border bg-transparent px-6 hover:bg-accent hover:text-accent-foreground"
+                    className="h-11 rounded-full border-brand-pool/50 bg-card/40 px-6 backdrop-blur-sm transition-transform hover:scale-[1.03] hover:bg-accent hover:text-accent-foreground"
                   >
                     <a href="#work">{t.cta.viewProjects}</a>
                   </Button>
@@ -124,7 +141,7 @@ export function HomePage() {
                   aria-hidden="true"
                   width={1147}
                   height={1147}
-                  className="hidden size-24 shrink-0 object-contain drop-shadow-[0_0_28px_rgba(46,155,214,0.35)] lg:block"
+                  className="hidden size-24 shrink-0 animate-[cd-float_5s_ease-in-out_infinite] object-contain drop-shadow-[0_0_32px_rgba(46,155,214,0.55)] motion-reduce:animate-none lg:block"
                 />
               </div>
 
@@ -152,7 +169,7 @@ export function HomePage() {
         </section>
 
         {/* ── Services ────────────────────────────────────────────────── */}
-        <section id="services" aria-labelledby="services-title" className="scroll-mt-20 border-b border-border/70">
+        <section id="services" aria-labelledby="services-title" className="cd-ambient scroll-mt-20 border-b border-border/70">
           <div className="mx-auto max-w-6xl px-4 py-12 sm:px-6 lg:px-8 lg:py-16">
             <SectionHeading
               id="services-title"
@@ -167,14 +184,14 @@ export function HomePage() {
                   as="li"
                   key={service.id}
                   delay={index * 0.06}
-                  className="border-t border-border/70 py-7 first:border-t sm:[&:nth-child(2)]:border-t"
+                  className="group border-t border-border/70 py-7 first:border-t sm:[&:nth-child(2)]:border-t"
                 >
                   <div className="flex items-start gap-4">
-                    <span className="font-display text-xs font-semibold text-brand-pool tabular-nums">
+                    <span className="flex size-9 shrink-0 items-center justify-center rounded-lg border border-brand-pool/40 bg-brand-pool/10 font-display text-xs font-semibold text-brand-pool tabular-nums transition-all duration-300 group-hover:scale-110 group-hover:bg-brand-pool group-hover:text-background group-hover:shadow-[0_0_22px_-4px_var(--brand-pool)]">
                       {service.index}
                     </span>
                     <div className="min-w-0">
-                      <h3 className="font-display text-lg font-semibold tracking-tight text-foreground">
+                      <h3 className="font-display text-lg font-semibold tracking-tight text-foreground transition-colors group-hover:text-brand-pool">
                         {service.title}
                       </h3>
                       <p className="mt-2 text-sm leading-relaxed text-muted-foreground">
@@ -206,7 +223,7 @@ export function HomePage() {
                 <Reveal
                   key={client.id}
                   delay={index * 0.08}
-                  className="group flex flex-col rounded-2xl border border-border bg-card p-6 shadow-sm transition-colors hover:border-brand-pool/60 sm:p-7"
+                  className="cd-spot group flex flex-col rounded-2xl border border-border bg-card p-6 shadow-sm sm:p-7"
                 >
                   <div className="flex items-start justify-between gap-4">
                     <div className="flex items-center gap-3">
@@ -259,7 +276,7 @@ export function HomePage() {
         </section>
 
         {/* ── Projects ────────────────────────────────────────────────── */}
-        <section id="work" aria-labelledby="work-title" className="scroll-mt-20 border-b border-border/70">
+        <section id="work" aria-labelledby="work-title" className="cd-ambient scroll-mt-20 border-b border-border/70">
           <div className="mx-auto max-w-6xl px-4 py-12 sm:px-6 lg:px-8 lg:py-16">
             <SectionHeading
               id="work-title"
@@ -273,7 +290,7 @@ export function HomePage() {
                 <Reveal
                   key={project.id}
                   delay={(index % 3) * 0.08}
-                  className="group flex flex-col overflow-hidden rounded-2xl border border-border bg-card shadow-sm transition-colors hover:border-brand-pool/60"
+                  className="cd-spot group flex flex-col overflow-hidden rounded-2xl border border-border bg-card shadow-sm"
                 >
                   {project.media.type === "image" && project.media.src ? (
                     <img
@@ -291,12 +308,12 @@ export function HomePage() {
                       aria-label={`${project.name} — ${project.kind}`}
                       className="relative flex aspect-video items-center justify-center overflow-hidden border-b border-border/70 bg-[radial-gradient(120%_120%_at_15%_10%,color-mix(in_oklab,var(--brand-pool)_22%,transparent),transparent_60%),radial-gradient(100%_100%_at_85%_90%,color-mix(in_oklab,var(--primary)_18%,transparent),transparent_55%)]"
                     >
-                      <svg viewBox="0 0 240 135" className="h-full w-full opacity-70" aria-hidden="true">
-                        <g stroke="var(--brand-pool)" strokeOpacity="0.5" strokeWidth="1" fill="none">
+                      <svg viewBox="0 0 240 135" className="h-full w-full opacity-80 transition-transform duration-500 group-hover:scale-105" aria-hidden="true">
+                        <g className="cd-flow" stroke="var(--brand-pool)" strokeOpacity="0.7" strokeWidth="1.2" fill="none">
                           <path d="M20 100h44l22-26h40l20 26h54" />
                           <path d="M64 100V58h40l20-22h44l22 22h30" />
                         </g>
-                        <g fill="var(--brand-pool)">
+                        <g className="cd-nodes" fill="var(--brand-pool)">
                           <circle cx="20" cy="100" r="3.2" />
                           <circle cx="64" cy="100" r="3.2" />
                           <circle cx="86" cy="74" r="3.2" />
@@ -344,7 +361,7 @@ export function HomePage() {
         </section>
 
         {/* ── Developer ───────────────────────────────────────────────── */}
-        <section id="developer" aria-labelledby="developer-title" className="scroll-mt-20 border-b border-border/70 bg-muted/40">
+        <section id="developer" aria-labelledby="developer-title" className="cd-ambient scroll-mt-20 border-b border-border/70 bg-muted/40">
           <div className="mx-auto max-w-6xl px-4 py-12 sm:px-6 lg:px-8 lg:py-16">
             <div className="grid gap-8 lg:grid-cols-[minmax(0,1.35fr)_minmax(0,1fr)] lg:gap-12">
               <div>
@@ -353,15 +370,17 @@ export function HomePage() {
                     {t.developer.eyebrow}
                   </p>
                   <div className="mt-4 flex items-center gap-5">
-                    <img
-                      src={publicUrl("profile.jpg")}
-                      alt={t.developer.name}
-                      width={112}
-                      height={112}
-                      loading="lazy"
-                      decoding="async"
-                      className="size-20 shrink-0 rounded-full object-cover ring-2 ring-brand-pool/60 ring-offset-4 ring-offset-background sm:size-28"
-                    />
+                    <span className="cd-avatar-ring shrink-0">
+                      <img
+                        src={publicUrl("profile.jpg")}
+                        alt={t.developer.name}
+                        width={112}
+                        height={112}
+                        loading="lazy"
+                        decoding="async"
+                        className="block size-20 rounded-full border-4 border-background object-cover sm:size-28"
+                      />
+                    </span>
                     <div className="min-w-0">
                       <h2
                         id="developer-title"
@@ -392,7 +411,7 @@ export function HomePage() {
                     {t.developer.stack.map((item) => (
                       <li
                         key={item}
-                        className="rounded-lg border border-border bg-card px-3 py-1.5 font-mono text-xs text-card-foreground"
+                        className="rounded-lg border border-border bg-card px-3 py-1.5 font-mono text-xs text-card-foreground transition-all duration-300 hover:-translate-y-0.5 hover:border-brand-pool/70 hover:text-brand-pool hover:shadow-[0_0_18px_-6px_var(--brand-pool)]"
                       >
                         {item}
                       </li>
@@ -402,7 +421,7 @@ export function HomePage() {
               </div>
 
               <Reveal delay={0.08} className="lg:pt-6">
-                <div className="rounded-2xl border border-border bg-card p-6 shadow-sm">
+                <div className="cd-spot rounded-2xl border border-border bg-card p-6 shadow-sm">
                   <div className="flex items-center gap-2.5">
                     <span className="relative flex size-2 rounded-full bg-brand-pool">
                       <span className="absolute inset-0 animate-ping rounded-full bg-brand-pool/70" />
@@ -468,7 +487,7 @@ export function HomePage() {
                 <Button
                   asChild
                   size="lg"
-                  className="h-12 w-full rounded-full bg-primary px-7 text-primary-foreground hover:bg-primary-hover hover:text-primary-hover-foreground sm:w-auto"
+                  className="cd-shine h-12 w-full rounded-full bg-primary px-7 text-primary-foreground transition-transform hover:scale-[1.03] hover:bg-primary-hover hover:text-primary-hover-foreground sm:w-auto"
                 >
                   <a href={whatsapp} target="_blank" rel="noopener noreferrer">
                     <svg viewBox="0 0 24 24" className="size-4" fill="currentColor" aria-hidden="true">
