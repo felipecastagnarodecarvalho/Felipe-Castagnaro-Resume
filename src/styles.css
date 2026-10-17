@@ -1,0 +1,318 @@
+@import "tailwindcss";
+
+@import "tw-animate-css";
+
+@custom-variant dark (&:is(.dark *));
+
+@layer base {
+  :root {
+    --background: #ffffff;
+    --foreground: #0b1220;
+    --card: #ffffff;
+    --card-foreground: #0b1220;
+    --popover: #ffffff;
+    --popover-foreground: #0b1220;
+    --primary: #0f5ea8;
+    --primary-foreground: #ffffff;
+    --primary-hover: #0b4c88;
+    --primary-hover-foreground: #ffffff;
+    --secondary: #eef4fa;
+    --secondary-foreground: #0b1220;
+    --brand-pool: #2e9bd6;
+    --brand-aqua: #1f8fae;
+    --pool-ink: #1c6f9c;
+    --muted: #f1f5f9;
+    --muted-foreground: #5a6a80;
+    --accent: #e8f3fa;
+    --accent-foreground: #0b4c88;
+    --destructive: #c02b2b;
+    --destructive-foreground: #ffffff;
+    --border: #dfe7ef;
+    --input: #dfe7ef;
+    --ring: #2e9bd6;
+    --chart-1: #0f5ea8;
+    --chart-2: #2e9bd6;
+    --chart-3: #7fe3da;
+    --chart-4: #1c6f9c;
+    --chart-5: #5a6a80;
+    --radius: 0.75rem;
+    --sidebar: #f7fafc;
+    --sidebar-foreground: #0b1220;
+    --sidebar-primary: #0f5ea8;
+    --sidebar-primary-foreground: #ffffff;
+    --sidebar-accent: #e8f3fa;
+    --sidebar-accent-foreground: #0b4c88;
+    --sidebar-border: #dfe7ef;
+    --sidebar-ring: #2e9bd6;
+  }
+
+  .dark {
+    --background: #080d14;
+    --foreground: #eaf2f8;
+    --card: #0e1622;
+    --card-foreground: #eaf2f8;
+    --popover: #0e1622;
+    --popover-foreground: #eaf2f8;
+    --primary: #2e9bd6;
+    --primary-foreground: #06121b;
+    --primary-hover: #52b3e6;
+    --primary-hover-foreground: #06121b;
+    --secondary: #131f2e;
+    --secondary-foreground: #eaf2f8;
+    --brand-pool: #7fe3da;
+    --brand-aqua: #7fe3da;
+    --pool-ink: #8fd8f2;
+    --muted: #131f2e;
+    --muted-foreground: #93a6bb;
+    --accent: #14283c;
+    --accent-foreground: #a8dcf5;
+    --destructive: #f07171;
+    --destructive-foreground: #1a0808;
+    --border: #1d2b3c;
+    --input: #1d2b3c;
+    --ring: #7fe3da;
+    --chart-1: #2e9bd6;
+    --chart-2: #7fe3da;
+    --chart-3: #0f5ea8;
+    --chart-4: #8fd8f2;
+    --chart-5: #93a6bb;
+    --sidebar: #0b1220;
+    --sidebar-foreground: #eaf2f8;
+    --sidebar-primary: #2e9bd6;
+    --sidebar-primary-foreground: #06121b;
+    --sidebar-accent: #14283c;
+    --sidebar-accent-foreground: #a8dcf5;
+    --sidebar-border: #1d2b3c;
+    --sidebar-ring: #7fe3da;
+  }
+}
+
+@theme inline {
+  --font-sans: "Manrope", ui-sans-serif, system-ui, sans-serif;
+  --font-display: "Sora", ui-sans-serif, system-ui, sans-serif;
+  --color-brand-pool: var(--brand-pool);
+  --color-brand-aqua: var(--brand-aqua);
+  --color-pool-ink: var(--pool-ink);
+  --color-background: var(--background);
+  --color-foreground: var(--foreground);
+  --color-card: var(--card);
+  --color-card-foreground: var(--card-foreground);
+  --color-popover: var(--popover);
+  --color-popover-foreground: var(--popover-foreground);
+  --color-primary: var(--primary);
+  --color-primary-foreground: var(--primary-foreground);
+  --color-primary-hover: var(--primary-hover);
+  --color-primary-hover-foreground: var(--primary-hover-foreground);
+  --color-secondary: var(--secondary);
+  --color-secondary-foreground: var(--secondary-foreground);
+  --color-muted: var(--muted);
+  --color-muted-foreground: var(--muted-foreground);
+  --color-accent: var(--accent);
+  --color-accent-foreground: var(--accent-foreground);
+  --color-destructive: var(--destructive);
+  --color-destructive-foreground: var(--destructive-foreground);
+  --color-border: var(--border);
+  --color-input: var(--input);
+  --color-ring: var(--ring);
+  --color-chart-1: var(--chart-1);
+  --color-chart-2: var(--chart-2);
+  --color-chart-3: var(--chart-3);
+  --color-chart-4: var(--chart-4);
+  --color-chart-5: var(--chart-5);
+  --radius-sm: calc(var(--radius) - 4px);
+  --radius-md: calc(var(--radius) - 2px);
+  --radius-lg: var(--radius);
+  --radius-xl: calc(var(--radius) + 4px);
+  --color-sidebar: var(--sidebar);
+  --color-sidebar-foreground: var(--sidebar-foreground);
+  --color-sidebar-primary: var(--sidebar-primary);
+  --color-sidebar-primary-foreground: var(--sidebar-primary-foreground);
+  --color-sidebar-accent: var(--sidebar-accent);
+  --color-sidebar-accent-foreground: var(--sidebar-accent-foreground);
+  --color-sidebar-border: var(--sidebar-border);
+  --color-sidebar-ring: var(--sidebar-ring);
+}
+
+@layer base {
+  * {
+    @apply border-border outline-ring/50;
+  }
+
+  html,
+  body,
+  #app {
+    min-height: 100%;
+  }
+
+  body {
+    margin: 0;
+    color: var(--foreground);
+    font-family: var(--font-sans);
+    background: var(--background);
+    overflow-x: hidden;
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+  }
+}
+
+@layer base {
+  html {
+    scroll-behavior: auto;
+  }
+
+  /* Theme swap only, no page animation. Keyframes are exempt from a transition. */
+  body,
+  .theme-surface {
+    transition:
+      background-color 260ms ease,
+      color 260ms ease;
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    body,
+    .theme-surface {
+      transition: none;
+    }
+  }
+}
+
+/* First-paint hero entrance. Runs before hydration; JS only scales the delay. */
+@keyframes cd-rise {
+  from {
+    opacity: 0;
+    transform: translate3d(0, 18px, 0);
+  }
+  to {
+    opacity: 1;
+    transform: translate3d(0, 0, 0);
+  }
+}
+
+@keyframes cd-fade {
+  from {
+    opacity: 0;
+  }
+  to {
+    opacity: 1;
+  }
+}
+
+@layer components {
+  .cd-hero-item {
+    animation: cd-rise 0.7s cubic-bezier(0.22, 1, 0.36, 1) both;
+    animation-delay: var(--cd-delay, 0ms);
+  }
+
+  .cd-hero-fade {
+    animation: cd-fade 0.9s ease-out both;
+    animation-delay: var(--cd-delay, 0ms);
+  }
+
+  /* Hides reveal targets before ScrollTrigger sets the visible state. */
+  .cd-reveal[data-motion="pending"] {
+    opacity: 0;
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    .cd-hero-item,
+    .cd-hero-fade {
+      animation: none;
+    }
+
+    .cd-reveal[data-motion="pending"] {
+      opacity: 1;
+    }
+  }
+}
+
+@keyframes loading-star-spin {
+  0%,
+  14% {
+    transform: rotate(0);
+  }
+  22% {
+    transform: rotate(-16deg);
+  }
+  62% {
+    transform: rotate(372deg);
+  }
+  72% {
+    transform: rotate(348deg);
+  }
+  80% {
+    transform: rotate(366deg);
+  }
+  88% {
+    transform: rotate(356deg);
+  }
+  94%,
+  100% {
+    transform: rotate(1turn);
+  }
+}
+
+@keyframes loading-sweep {
+  0% {
+    transform: translateX(0);
+  }
+  100% {
+    transform: translateX(302px);
+  }
+}
+
+@keyframes loading-float {
+  0%,
+  100% {
+    transform: translateY(0);
+  }
+  50% {
+    transform: translateY(-6px);
+  }
+}
+
+@keyframes loading-glow {
+  0%,
+  100% {
+    opacity: 0.6;
+    transform: scale(0.94);
+  }
+  50% {
+    opacity: 1;
+    transform: scale(1.04);
+  }
+}
+
+@layer components {
+  .loading-glow {
+    background: radial-gradient(
+      closest-side,
+      rgb(24 203 239 / 0.14),
+      rgb(167 139 250 / 0.06) 60%,
+      rgb(167 139 250 / 0)
+    );
+    animation: loading-glow 3s ease-in-out infinite;
+  }
+
+  .loading-browser {
+    animation: loading-float 3s ease-in-out infinite;
+  }
+
+  .loading-sweep {
+    animation: loading-sweep 1.6s ease-in-out infinite;
+  }
+
+  .loading-star-spin {
+    transform-box: fill-box;
+    transform-origin: center;
+    animation: loading-star-spin 2.6s ease-in-out infinite both;
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    .loading-glow,
+    .loading-browser,
+    .loading-sweep,
+    .loading-star-spin {
+      animation: none;
+    }
+  }
+}
